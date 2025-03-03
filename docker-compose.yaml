@@ -1,0 +1,25 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:16
+    restart: always
+    environment:
+      POSTGRES_USER: dbuser
+      POSTGRES_PASSWORD: dbuser
+      POSTGRES_DB: subscription_service_db
+    volumes:
+      - ./src/main/resources/db/migration:/docker-entrypoint-initdb.d  # Mount the SQL script
+
+  subscription-service:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      - db
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/subscription_service_db
+      SPRING_DATASOURCE_USERNAME: dbuser
+      SPRING_DATASOURCE_PASSWORD: dbuser
+    ports:
+      - "8080:8080"
