@@ -9,7 +9,7 @@ services:
       POSTGRES_PASSWORD: dbuser
       POSTGRES_DB: subscription_service_db
     volumes:
-      - ./src/main/resources/db/migration:/docker-entrypoint-initdb.d  # Mount the SQL script
+      - ./src/main/resources/db/migration:/docker-entrypoint-initdb.d
 
   subscription-service:
     build:
